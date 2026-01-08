@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Accessible WCAG 2.2 Template</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Descriptive metadata -->
+  <meta name="description" content="Accessible HTML template following WCAG 2.2 best practices.">
+
+  <!-- Use high-contrast, accessible colors (placeholder values) -->
+  <style>
+    :root {
+      --color-bg: #ffffff;
+      --color-fg: #111111;
+      --color-primary: #005fcc;
+      --color-primary-contrast: #ffffff;
+      --color-focus: #ffbf47;
+      --font-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   sans-serif;
+      --line-height-base: 1.5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-base);
+      line-height: var(--line-height-base);
+      background: var(--color-bg);
+      color: var(--color-fg);
+    }
+
+    /* Skip link for keyboard users (2.4.1 Bypass Blocks) */
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 0;
+      background: var(--color-primary);
+      color: var(--color-primary-contrast);
+      padding: 0.5rem 1rem;
+      z-index: 1000;
+    }
+
+    .skip-link:focus {
+      left: 0.5rem;
+      top: 0.5rem;
+    }
+
+    /* Focus styles (2.4.7 Focus Visible, 2.4.13 Focus Appearance) */
+    :focus-visible {
+      outline: 3px solid var(--color-focus);
+      outline-offset: 3px;
+    }
+
+    a {
+      color: var(--color-primary);
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--color-focus);
+      outline-offset: 3px;
+    }
+
+    header,
+    nav,
+    main,
+    footer {
+      padding-inline: 1rem;
+    }
+
+    header {
+      border-bottom: 1px solid #ccc;
+      padding-block: 1rem;
+    }
+
+    .site-title {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.5rem;
+    }
+
+    nav[aria-label="Primary"] ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    nav[aria-label="Primary"] a {
+      text-decoration: none;
+      padding: 0.3rem 0.7rem;
+      border-radius: 0.25rem;
+    }
+
+    nav[aria-label="Primary"] a:focus-visible,
+    nav[aria-label="Primary"] a:hover {
+      background: #e6f0ff;
+    }
+
+    main {
+      padding-block: 1.5rem;
+      max-width: 70rem;
+      margin-inline: auto;
+    }
+
+    .page-intro {
+      margin-bottom: 2rem;
+    }
+
+    .page-intro h1 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    section > h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Form styles */
+    form {
+      max-width: 30rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: inline-block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+    }
+
+    .form-hint {
+      display: block;
+      font-size: 0.875rem;
+      color: #444;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      font: inherit;
+      border-radius: 0.25rem;
+      border: 1px solid #777;
+    }
+
+    input[type="text"]:focus-visible,
+    input[type="email"]:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      border-color: var(--color-focus);
+    }
+
+    .error-message {
+      color: #b40000;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Button styles */
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1.25rem;
+      border-radius: 0.25rem;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      background: var(--color-primary);
+      color: var(--color-primary-contrast);
+    }
+
+    .button:hover {
+      background: #004aa1;
+    }
+
+    .button[disabled],
+    .button[aria-disabled="true"] {
+      background: #ccc;
+      color: #666;
+      cursor: not-allowed;
+    }
+
+    footer {
+      border-top: 1px solid #ccc;
+      padding-block: 1rem 2rem;
+      font-size: 0.9rem;
+    }
+
+    /* Example of minimum hit target sizing (2.5.8 Target Size) */
+    .nav-link-large-target {
+      padding: 0.5rem 1rem;
+      display: inline-block; /* ensures a larger activation area */
+    }
+
+    /* Responsive layout */
+    @media (min-width: 48rem) {
+      main {
+        padding-inline: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip link to meet bypass blocks requirements -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div>
+      <p class="site-title">My Accessible Site</p>
+      <p id="tagline">Building with WCAG 2.2 in mind</p>
+    </div>
+
+    <!-- Primary navigation (consistent across pages for 3.2.3 & 3.2.6 in 2.2) -->
+    <nav aria-label="Primary">
+      <ul>
+        <li><a class="nav-link-large-target" href="#intro">Home</a></li>
+        <li><a class="nav-link-large-target" href="#features">Features</a></li>
+        <li><a class="nav-link-large-target" href="#contact">Contact</a></li>
+        <li><a class="nav-link-large-target" href="#help">Help</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main landmark (one per page) -->
+  <main id="main">
+    <!-- Page-level introduction -->
+    <section id="intro" class="page-intro" aria-labelledby="intro-heading">
+      <h1 id="intro-heading">Welcome to your accessible template</h1>
+      <p>
+        This template demonstrates semantic structure, keyboard accessibility,
+        clear focus indicators, and patterns that support WCAG 2.2.
+      </p>
+      <p>
+        Replace this content with your own but keep the structure, labeling,
+        and focus styles to maintain accessibility.
+      </p>
+    </section>
+
+    <!-- Features section -->
+    <section id="features" aria-labelledby="features-heading">
+      <h2 id="features-heading">Key accessibility features</h2>
+
+      <ul>
+        <li>
+          <strong>Clear structure:</strong> Proper use of
+          <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>,
+          <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, and
+          <code>&lt;footer&gt;</code> landmarks.
+        </li>
+        <li>
+          <strong>Keyboard support:</strong> All interactive elements are standard
+          HTML controls or buttons, focusable and operable with the keyboard.
+        </li>
+        <li>
+          <strong>Visible focus:</strong> Strong focus indicators meet
+          WCAG 2.2 focus requirements when styled appropriately.
+        </li>
+        <li>
+          <strong>Labels and instructions:</strong> Every form control has an
+          associated label and optional hint text.
+        </li>
+        <li>
+          <strong>Reduced redundancy:</strong> Example patterns support
+          minimizing re-entry of data (3.3.7 Redundant Entry) when implemented on
+          multi-step flows.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Contact form example -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contact us</h2>
+      <p>
+        Required fields are marked with an asterisk (<span aria-hidden="true">*</span>).
+        Screen readers announce this via the label text.
+      </p>
+
+      <form novalidate aria-describedby="contact-help-text">
+        <p id="contact-help-text">
+          Use this form to send us a message. All fields are editable and 
+          you can review your information before submitting.
+        </p>
+
+        <div class="form-group">
+          <label for="name">
+            Name <span aria-hidden="true">*</span>
+          </label>
+          <span id="name-hint" class="form-hint">
+            Enter your full name as you’d like us to address you.
+          </span>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            aria-describedby="name-hint"
+            required
+          >
+          <!-- Example error message space (add dynamically if needed) -->
+          <p class="error-message" id="name-error" hidden>
+            Please enter your name.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="email">
+            Email address <span aria-hidden="true">*</span>
+          </label>
+          <span id="email-hint" class="form-hint">
+            We’ll only use your email to reply to your message.
+          </span>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            aria-describedby="email-hint"
+            required
+          >
+          <p class="error-message" id="email-error" hidden>
+            Enter a valid email address, such as name@example.com.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="topic">Topic</label>
+          <span id="topic-hint" class="form-hint">
+            Choose the option that best matches your request.
+          </span>
+          <select
+            id="topic"
+            name="topic"
+            aria-describedby="topic-hint"
+          >
+            <option value="">Please select</option>
+            <option value="support">Support</option>
+            <option value="sales">Sales</option>
+            <option value="feedback">Feedback</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            Message <span aria-hidden="true">*</span>
+          </label>
+          <span id="message-hint" class="form-hint">
+            Include any details that will help us respond.
+          </span>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            aria-describedby="message-hint"
+            required
+          ></textarea>
+          <p class="error-message" id="message-error" hidden>
+            Please enter a message.
+          </p>
+        </div>
+
+        <button type="submit" class="button">
+          Send message
+        </button>
+      </form>
+    </section>
+
+    <!-- Help / consistent help section for 3.2.6 Consistent Help -->
+    <section id="help" aria-labelledby="help-heading">
+      <h2 id="help-heading">Help and support</h2>
+      <p>
+        If you need assistance using this site, you can contact us via the form
+        above or by email or phone.
+      </p>
+      <p>
+        Email:
+        <a href="mailto:accessibility@example.com">
+          accessibility@example.com
+        </a>
+        <br>
+        Phone: <span aria-label="1 2 3 4 5 6 7 8 9 0">
+          123-456-7890
+        </span>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year">2026</span> Accessible Website, Inc.</p>
+    <p>
+      <a href="#intro">Back to top</a>
+    </p>
+  </footer>
+
+  <!-- Optional: minimal, accessible JS (no auto-focus traps, no unexpected changes) -->
+  <script>
+    // Keep year current without impacting accessibility
+    (function () {
+      var yearElement = document.getElementById('year');
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+      }
+    }());
+  </script>
+</body>
+</html>
